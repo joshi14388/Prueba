@@ -1,0 +1,26 @@
+<!-- <p>equipo works!</p> -->
+
+<!-- Listado de integrantes del equipo de trabajo -->
+<h2>Equipo de Trabajo</h2>
+<ul class="integrantes"> 
+  <li *ngFor="let integrante of integrantes">
+    <a routerLink="/detalle/{{integrante.id}}">
+      <span class="badge">{{integrante.id}}
+      </span> {{integrante.nombre}}
+    </a>
+  </li>
+</ul>
+
+<!-- <ul class="integrantes"> 
+  <li *ngFor="let integrante of integrantes">
+    <button type="button" [class.selected]="integrante === selectedIntegrante" (click)="onSelect(integrante)">
+      <span class="badge">{{integrante.id}}</span>
+      <span class="name">{{integrante.nombre}}</span>
+    </button>
+  </li>
+</ul> -->
+
+<!-- Detalles de integrante seleccionado -->
+<!-- <app-equipo-detalle [integrante]="selectedIntegrante"></app-equipo-detalle> -->
+
+
