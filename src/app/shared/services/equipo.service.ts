@@ -12,6 +12,9 @@ import { catchError, map, tap } from 'rxjs/operators';
 export class EquipoService {
 
   private equipoUrl = 'api/equipo';  // URL a la web api
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
   constructor(
     private mensajeSeervice: MensajeService,
@@ -22,13 +25,8 @@ export class EquipoService {
     this.mensajeSeervice.add('EquipoService: integrantes obtenidos');
     return integrantes;
   }
-  getIntegrante2(id: number): Observable<Integrante> {
-    //asumiendo que existe el integrante con ese id
-    const integrante = INTEGRANTES.find(h => h.id === id)!;
-    this.mensajeSeervice.add(`EquipoService: Integrante localizado id=${id}`);
-    return of(integrante);
-  }
 
+  //* obtener un integrante por su id
   getIntegrante(id: number): Observable<Integrante> {
     const url =  `${this.equipoUrl}/${id}`;
     return this.http.get<Integrante>(url)
@@ -42,6 +40,7 @@ export class EquipoService {
     this.mensajeSeervice.add(`EquipoService: ${message}`);
   }
 
+  //*obtener todos los integrantes del equipo (mock) de trabajo
   getEquipo(): Observable<Integrante[]> {
     //*variante con http
     return this.http.get<Integrante[]>(this.equipoUrl)
@@ -50,6 +49,32 @@ export class EquipoService {
       catchError(this.handleError<Integrante[]>('getEquipo', []))
     );
   }
+
+  //* PUT: actualiza el integrante del equipo de trabajo 
+  updateIntegrante(integrante: Integrante): Observable<any> {
+    return this.http.put(this.equipoUrl, integrante, this.httpOptions).pipe(
+      tap(_ => this.log(`Integrante actualizado id=${integrante.id}`)),
+      catchError(this.handleError<any>('updateIntegrante'))
+    );
+  }
+
+  //* POST: adiciona nuevo integrante 
+addIntegrante(integrante: Integrante): Observable<Integrante> {
+  return this.http.post<Integrante>(this.equipoUrl, integrante, this.httpOptions).pipe(
+    tap((nuevoIntegrante: Integrante) => this.log(`integrante añadido w/ id=${nuevoIntegrante.id}`)),
+    catchError(this.handleError<Integrante>('addIntegrante'))
+  );
+}
+
+//* DELETE: elimina integrante 
+deleteIntegrante(id: number): Observable<Integrante> {
+  const url = `${this.equipoUrl}/${id}`;
+
+  return this.http.delete<Integrante>(url, this.httpOptions).pipe(
+    tap(_ => this.log(`integrante eliminado id=${id}`)),
+    catchError(this.handleError<Integrante>('deleteIntegrante'))
+  );
+}
 
   //*manejo de error: https://angular.io/tutorial/toh-pt6
   private handleError<T>(operation = 'operation', result?: T) {

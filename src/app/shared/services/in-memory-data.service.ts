@@ -6,7 +6,6 @@ import { Integrante } from '../interfaces/integrante';
   providedIn: 'root'
 })
 export class InMemoryDataService implements InMemoryDbService {
-//export class InMemoryDataService implements InMemoryDataService {
 
   constructor() { }
 

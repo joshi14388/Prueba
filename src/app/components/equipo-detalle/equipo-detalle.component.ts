@@ -36,4 +36,11 @@ export class EquipoDetalleComponent implements OnInit {
     this.location.back();
   }
 
+  save(): void {
+    if (this.integrante) {
+      this.equipoService.updateIntegrante(this.integrante)
+        .subscribe(() => this.goBack());
+    }
+  }
+
 }

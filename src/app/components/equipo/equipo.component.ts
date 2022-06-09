@@ -28,8 +28,22 @@ export class EquipoComponent implements OnInit {
   }
 
   getIntegrantes(): void {
-    this.equipoService.geIntegrantes()
+    this.equipoService.getEquipo()
     .subscribe(integrantes => this.integrantes = integrantes);
+  }
+
+  add(nombre: string): void {
+    nombre = nombre.trim();
+    if (!nombre) { return; }
+    this.equipoService.addIntegrante({ nombre } as unknown as Integrante)
+      .subscribe(integrante => {
+        this.integrantes.push(integrante);
+      });
+  }
+
+  delete(integrante: Integrante): void {
+    this.integrantes = this.integrantes.filter(h => h !== integrante);
+    this.equipoService.deleteIntegrante(integrante.id).subscribe();
   }
 
 }
