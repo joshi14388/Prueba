@@ -11,8 +11,12 @@ import { MensajesComponent } from './components/mensajes/mensajes.component';
 //* para la comunicacion con un servidor remoto
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { InMemoryDataService } from './shared/services/in-memory-data.service';
+//* para el uso de tags
+import { TagInputModule } from 'ngx-chips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgChipsComponent } from './components/ng-chips/ng-chips.component'; 
 
 @NgModule({
   declarations: [
@@ -20,12 +24,16 @@ import { InMemoryDataService } from './shared/services/in-memory-data.service';
     EquipoDetalleComponent,
     EquipoComponent,
     DashboardComponent,
-    MensajesComponent
+    MensajesComponent,
+    NgChipsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    TagInputModule, 
+    BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
 
      HttpClientInMemoryWebApiModule.forRoot(
